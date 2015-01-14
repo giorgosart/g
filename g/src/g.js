@@ -51,7 +51,7 @@ gg = {
 
   /**
    * @author George Artemiou
-   * @param x: 
+   * @param x:
    * @return the type of the passed object
    */
   typeOf: function(x) {
@@ -92,8 +92,10 @@ gg = {
 
   /**
    * @author George Artemiou
-   * @param min: a lower limit to be used
-   * @param max: an upperlimit to be used
+   * @param min:
+   *          a lower limit to be used
+   * @param max:
+   *          an upperlimit to be used
    * @return a random number between min and max
    */
   randomBetween: function(min, max) {
@@ -104,8 +106,9 @@ gg = {
    * returns all properties of an object
    * 
    * @author George Artemiou
-   * @param obj: an object
-   * @return a list with all the object's properties 
+   * @param obj:
+   *          an object
+   * @return a list with all the object's properties
    */
   getObjectProperties: function(obj) { // not IE8 compatible
     return Object.getOwnPropertyNames(obj);
@@ -115,7 +118,8 @@ gg = {
    * Checks if an id exists in the current HTML document
    * 
    * @author George Artemiou
-   * @param id: the id to be checked 
+   * @param id:
+   *          the id to be checked
    * @return boolean whether id exists
    */
   idExists: function(id) {
@@ -251,7 +255,8 @@ gg = {
    * trims any extra spaces from the beginning and end of a string
    * 
    * @author George Artemiou
-   * @param val: the string to be trimmed
+   * @param val:
+   *          the string to be trimmed
    * @return the trimmed string
    */
   trim: function(val) {
@@ -261,8 +266,9 @@ gg = {
 
 /**
  * @author George Artemiou
- * @param selector: the query selector to be used to retrieve an element
- * @return element  
+ * @param selector:
+ *          the query selector to be used to retrieve an element
+ * @return element
  */
 
 function g(selector) {
@@ -289,10 +295,11 @@ g.prototype = {
    * values
    * 
    * @author George Artemiou
-   * @param deep {boolean} [optional]:
-   *          Specifies whether all descendants of the node should be cloned.
-   *          true - Clone the node, its attributes, and its descendants false -
-   *          Default. Clone only the node and its attributes
+   * @param deep
+   *          {boolean} [optional]: Specifies whether all descendants of the
+   *          node should be cloned. true - Clone the node, its attributes, and
+   *          its descendants false - Default. Clone only the node and its
+   *          attributes
    * @return the cloned element
    */
   clone: function(deep) {
@@ -413,13 +420,15 @@ g.prototype = {
    *          the function to be detached
    */
   unstick: function(events, fn) {
+    events = typeof events === 'string' ? [events] : events;
+
     if (this.e.removeEventListener) {
       for (i = 0; i < events.length; i++) {
-        this.e.removeEventListener(events[i], fn, bubbling);
+        this.e.removeEventListener(events[i], fn);
       }
     } else if (this.e.detachEvent) { // For IE 8 and earlier versions
       for (i = 0; i < events.length; i++) {
-        this.e.detachEvent(events[i], fn, bubbling);
+        this.e.detachEvent(events[i], fn);
       }
     }
   },
@@ -689,7 +698,6 @@ g.prototype = {
 
   /**
    * @author George Artemiou
-   * 
    */
   shake: function() {
     var el = this.e;
