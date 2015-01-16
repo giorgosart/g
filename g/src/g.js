@@ -76,7 +76,7 @@ gg = {
    * 
    * @author George Artemiou
    */
-  version: '0.1',
+  version: '0.2',
 
   /**
    * returns a random number between 0 and n
@@ -326,11 +326,11 @@ g.prototype = {
   /**
    * @author George Artemiou
    */
-  attr: function(attr, val) {
+  attr: function(property, val) {
     if (gg.isUndefined(val)) {
-      return this.e.getAttribute(attr);
+      return this.e.getAttribute(property);
     } else {
-      this.e.setAttribute(attr, val);
+      this.e.setAttribute(property, val);
     }
     return this;
   },
@@ -490,6 +490,7 @@ g.prototype = {
    * @author George Artemiou
    */
   background: function(input) {
+    if (gg.isUndefined(input)) { return this.e.style.background; }
     this.e.style.background = input;
     return this;
   },
@@ -511,6 +512,7 @@ g.prototype = {
    * @author George Artemiou
    */
   fontColor: function(input) {
+    if (gg.isUndefined(input)) { return this.e.style.color; }
     this.e.style.color = input;
     return this;
   },
@@ -769,6 +771,31 @@ g.prototype = {
   },
 
   /**
+   * Add custom user defined animation on an element
+   * 
+   * @author George Artemiou
+   * @param property: the css property to be changed
+   * @param from: the numeric position for the animation to start
+   * @param to: the numeric position for the animation to finish
+   * @param unit: the unit to used in "from" and "to" e.g. px
+   * @param time: the total animation time in ms
+   * @return this
+   */
+  animate: function(property, from, to, unit, time) {
+    e = this.e;
+  time = gg.isUndefined(time) ? 1000 : time;
+    var start = new Date().getTime();
+  var t = setInterval(function() {
+      var step = Math.min(1, (new Date().getTime() - start) / time);
+      e.style[property] = (from + step * (to - from)) + unit;
+      if (step == 1) clearInterval(t);
+    }, 25);
+    e.style[property] = from + unit;
+    return this;
+  },
+
+
+  /**
    * Sets the height of an element depending on the input passed. If nothing is
    * passed, the height of the element is returned in pixels
    * 
@@ -916,8 +943,7 @@ Date.prototype.isWeekDay = function() {
 };
 
 /**
- * @author George Artemiou
- * checks if the year of date is leap
+ * @author George Artemiou checks if the year of date is leap
  */
 Date.prototype.isLeapYear = function() {
   var y = this.getFullYear();
