@@ -58,6 +58,8 @@ g('#myEl').spin();
 * clone([Boolean])
 * appendChild(Element)
 * removeChild(Element)
+* before(value)
+* after(value)
 * attr(property [,value])
 * removeAttr(property)
 * data(data [, value])
