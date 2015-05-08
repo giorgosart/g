@@ -518,32 +518,51 @@ g.prototype = {
   },
 
   /**
-   * Adds a css class to the element
+   * Adds a css class to the selected element
    * 
    * @author George Artemiou
    */
   addClass: function(cssClass) {
-    this.e.classList.add(cssClass);
+    if (this.e.classList)
+      this.e.classList.add(cssClass);
+    else {
+      // remove class if already exists
+      this.e.className = this.e.className.replace(cssClass, "");
+      this.e.className = this.e.className + " " + cssClass;
+    }
     return this;
   },
 
   /**
-   * Removes a css class from the element
+   * Removes a css class from the selected element
    * 
    * @author George Artemiou
    */
   removeClass: function(cssClass) {
-    this.e.classList.remove(cssClass);
+    if (this.e.classList)
+      this.e.classList.remove(cssClass);
+    else
+      this.e.className = this.e.className.replace(cssClass, "");
     return this;
   },
 
   /**
-   * Removes a css class from the element
+   * Removes or adds a css class from the selected element
    * 
    * @author George Artemiou
    */
   toggleClass: function(cssClass) {
-    this.e.classList.toggle(cssClass);
+    if (this.e.classList) {
+      this.e.classList.toggle(cssClass);
+    } else {
+      var classes = this.e.cssClass.split(' ');
+      var existingIndex = classes.indexOf(cssClass);
+      if (existingIndex >= 0)
+        classes.splice(existingIndex, 1);
+      else
+        classes.push(cssClass);
+      this.e.cssClass = classes.join(' ');
+    }
     return this;
   },
 
@@ -774,18 +793,23 @@ g.prototype = {
    * Add custom user defined animation on an element
    * 
    * @author George Artemiou
-   * @param property: the css property to be changed
-   * @param from: the numeric position for the animation to start
-   * @param to: the numeric position for the animation to finish
-   * @param unit: the unit to used in "from" and "to" e.g. px
-   * @param time: the total animation time in ms
+   * @param property:
+   *          the css property to be changed
+   * @param from:
+   *          the numeric position for the animation to start
+   * @param to:
+   *          the numeric position for the animation to finish
+   * @param unit:
+   *          the unit to used in "from" and "to" e.g. px
+   * @param time:
+   *          the total animation time in ms
    * @return this
    */
   animate: function(property, from, to, unit, time) {
     e = this.e;
-  time = gg.isUndefined(time) ? 1000 : time;
+    time = gg.isUndefined(time) ? 1000 : time;
     var start = new Date().getTime();
-  var t = setInterval(function() {
+    var t = setInterval(function() {
       var step = Math.min(1, (new Date().getTime() - start) / time);
       e.style[property] = (from + step * (to - from)) + unit;
       if (step == 1) clearInterval(t);
@@ -793,7 +817,6 @@ g.prototype = {
     e.style[property] = from + unit;
     return this;
   },
-
 
   /**
    * Sets the height of an element depending on the input passed. If nothing is
