@@ -345,14 +345,14 @@ g.prototype = {
   },
 
   /**
-   * @author George Arteimou
+   * @author George Artemiou
    */
   removeAttr: function(attr) {
     this.e.removeAttribute(attr);
   },
 
   /**
-   * @author George Arteimou
+   * @author George Artemiou
    * @return the element's parent node
    */
   parent: function() {
@@ -360,11 +360,27 @@ g.prototype = {
   },
 
   /**
-   * @author George Arteimou
+   * @author George Artemiou
    * @return the element's children node
    */
   children: function() {
     return this.e.childNodes;
+  },
+  
+  /**
+   * @author George Artemiou
+   */
+  after: function(htmlString){
+    this.e.insertAdjacentHTML('afterend', htmlString);
+    return this;
+  },
+  
+  /**
+   * @author George Artemiou
+   */
+  before: function(htmlString){
+    this.e.insertAdjacentHTML('beforebegin', htmlString);
+    return this;
   },
 
   /**
